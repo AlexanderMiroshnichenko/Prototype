@@ -15,6 +15,8 @@ namespace Game
 		private float m_delay = 1f;
 		[SerializeField] private float m_power = 100f;
 
+		private ContactPoint contact;
+		private Rigidbody body;
 		private void Awake()
 		{
 
@@ -44,6 +46,8 @@ namespace Game
 				m_stoneSpawner.Spawn();
 				m_timer -= m_delay;
 			}
+
+			Debug.DrawRay(contact.normal,contact.point,Color.red);
 		}
 
 		public void OnCollisionStone(Collision collision)
@@ -51,10 +55,15 @@ namespace Game
 			if (collision.gameObject.TryGetComponent<Stone>(out var stone))
 			{
 				stone.SetAffect(false);
-				var contact = collision.contacts[0];
-				var body = contact.otherCollider.GetComponent<Rigidbody>();
-				body.AddForce(contact.normal * m_power, ForceMode.Impulse);
+				 contact = collision.contacts[0];
+				 body = contact.otherCollider.GetComponent<Rigidbody>();
+				Debug.Log(contact.normal);
+				body.AddForce(contact.normal.normalized * m_power, ForceMode.Impulse);
+				//body.AddForceAtPosition(m_power*contact.normal, contact.point);
+				
 				Physics.IgnoreCollision(contact.thisCollider, contact.otherCollider, true);
+
+
 			}
 		}
 

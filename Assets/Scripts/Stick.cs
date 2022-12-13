@@ -10,9 +10,11 @@ namespace Game
 	{
 		[SerializeField]
 		private UnityEvent<Collision> onCollisionStone;
-
-		private void OnCollisionEnter(Collision other)
+		
+		private void OnCollisionStay(Collision other)
+		
 		{
+			
 			onCollisionStone.Invoke(other);
 		}
 	}

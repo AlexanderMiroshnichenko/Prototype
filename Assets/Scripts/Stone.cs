@@ -24,6 +24,7 @@ namespace Game
 
 		private void OnCollisionEnter(Collision other)
 		{
+
 			if (other.gameObject.TryGetComponent<Stone>(out var stone))
 			{
 				if (m_isAffect && stone.m_isAffect)
